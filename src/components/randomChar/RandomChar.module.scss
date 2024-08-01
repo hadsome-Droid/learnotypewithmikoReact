@@ -1,0 +1,13 @@
+.randomCharContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.containerDescription {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: space-between;
+}
