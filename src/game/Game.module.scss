@@ -1,5 +1,29 @@
 .gameContainer {
+  position: relative;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  height: 100%;
+
+  border: 1px solid white;
+}
+
+.success {
+  box-shadow: inset 5px 10px 50px 15px #38491b;
+}
+
+.fail {
+  text-shadow: 0 0 10px #612323;
+  box-shadow: inset 5px 10px 50px 15px #612323;
+}
+
+.superButton {
+  position: absolute;
+  top: 30%;
+  right: 10%;
+
+  background-color: var(--color-accent-900);
+  border-radius: 3px;
 }

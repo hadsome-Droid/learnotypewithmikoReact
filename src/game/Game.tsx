@@ -33,11 +33,16 @@ export const Game = () => {
     }
   }
 
+  let success = false
+  const fail = false
+
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       setUserChar(event.key)
+
       if (event.key === currentChar) {
         setCurrentChar(randomChar(chars))
+        success = true
       } else if (/^[а-яёА-ЯЁ]$/.test(event.key)) {
         console.log('Error')
       } else if (/^[a-zA-Z]$/.test(event.key)) {
@@ -65,8 +70,11 @@ export const Game = () => {
 
   return (
     <div className={s.gameContainer}>
-      Hello my little friend!
-      <button disabled={!gameIsOn} onClick={() => startGame()}>
+      <button
+        className={`${s.superButton} ${success ? s.success : ''}`}
+        disabled={!gameIsOn}
+        onClick={() => startGame()}
+      >
         Start Game!
       </button>
       <RandomChar description={descriptionChar()} randomChar={currentChar} />

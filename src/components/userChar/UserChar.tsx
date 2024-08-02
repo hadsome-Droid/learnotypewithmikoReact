@@ -1,5 +1,7 @@
 // import { useState } from 'react'
 
+import { Char } from '@/components/char/Char'
+
 type Props = {
   userChar: string
 }
@@ -9,5 +11,9 @@ export const UserChar = ({ userChar }: Props) => {
   //
   // setUserInput(userChar)
 
-  return <div style={{ color: 'green' }}>{userChar}</div>
+  return (
+    <div>
+      <Char char={userChar} />
+    </div>
+  )
 }

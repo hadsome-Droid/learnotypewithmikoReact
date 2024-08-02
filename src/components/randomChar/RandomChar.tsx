@@ -1,8 +1,7 @@
-import { DoubleAngleDown } from '@/assets/icons/components/doubleAngleDown'
-import { DoubleAngleUp } from '@/assets/icons/components/doubleAngleUp'
 import { RussiaFlag } from '@/assets/icons/components/russiaFlag'
 import { SortNumeric } from '@/assets/icons/components/sortNumeric'
 import { UnitedKingdomFlag } from '@/assets/icons/components/unitedKingdomFlag'
+import { Char } from '@/components/char/Char'
 
 import s from './RandomChar.module.scss'
 
@@ -23,19 +22,15 @@ export const RandomChar = ({ description, randomChar }: Props) => {
 
   return (
     <div className={s.randomCharContainer}>
-      <div>
-        {randomChar}
-        {description.isUpper ? (
-          <DoubleAngleUp color={'green'} />
-        ) : (
-          <DoubleAngleDown color={'red'} />
-        )}
+      <div className={s.charBox}>
+        <Char char={randomChar} isUpper={description.isUpper} />
       </div>
+
       <div className={s.containerDescription}>
-        <span style={{ marginLeft: '10px' }}>{description.language}</span>
+        <span>{description.language}</span>
         {rus && <RussiaFlag />}
         {eng && <UnitedKingdomFlag />}
-        {num && <SortNumeric />}
+        {num && <SortNumeric size={30} />}
       </div>
     </div>
   )
