@@ -2,17 +2,13 @@ import { RussiaFlag } from '@/assets/icons/components/russiaFlag'
 import { SortNumeric } from '@/assets/icons/components/sortNumeric'
 import { UnitedKingdomFlag } from '@/assets/icons/components/unitedKingdomFlag'
 import { Char } from '@/components/char/Char'
+import { Description } from '@/game/Game'
 
 import s from './RandomChar.module.scss'
 
 type Props = {
   description: Description
   randomChar: string
-}
-
-type Description = {
-  isUpper: boolean
-  language: string
 }
 
 export const RandomChar = ({ description, randomChar }: Props) => {

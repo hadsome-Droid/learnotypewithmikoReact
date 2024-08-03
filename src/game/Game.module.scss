@@ -27,3 +27,17 @@
   background-color: var(--color-accent-900);
   border-radius: 3px;
 }
+
+.currentKeyboard {
+  //background-color: var(--color-danger-900) !important;
+  background: var(--color-danger-900);
+}
+
+.myTheme {
+  width: 800px;
+  color: green;
+
+  .currentKeyboard {
+    background-color: var(--color-danger-900);
+  }
+}

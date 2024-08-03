@@ -1,11 +1,12 @@
 import { DoubleAngleDown } from '@/assets/icons/components/doubleAngleDown'
 import { DoubleAngleUp } from '@/assets/icons/components/doubleAngleUp'
+import { LowerOrUpper } from '@/game/Game'
 
 import s from './Char.module.scss'
 
 type Props = {
   char: string
-  isUpper?: boolean
+  isUpper: LowerOrUpper
 }
 
 export const Char = ({ char, isUpper }: Props) => {
@@ -13,11 +14,8 @@ export const Char = ({ char, isUpper }: Props) => {
     <div className={s.Char}>
       {char}
       <div className={s.isUpper}>
-        {isUpper ? (
-          <DoubleAngleUp color={'green'} size={54} />
-        ) : (
-          <DoubleAngleDown color={'red'} size={34} />
-        )}
+        {isUpper === 'Upper' && <DoubleAngleUp color={'green'} size={54} />}
+        {isUpper === 'Lower' && <DoubleAngleDown color={'red'} size={34} />}
       </div>
     </div>
   )
