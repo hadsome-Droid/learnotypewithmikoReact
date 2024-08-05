@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useState } from 'react'
 import KeyboardReact from 'react-simple-keyboard'
 
+import Ruslayout from 'simple-keyboard-layouts/build/layouts/russian'
+
 import 'react-simple-keyboard/build/css/index.css'
 
 import s from './Game.module.scss'
 
 import { RandomChar } from '../components/randomChar/RandomChar'
 import { UserChar } from '../components/userChar/UserChar'
+import { VirtualKeyboard } from '../components/virtualKeyboard/VirtualKeyboard'
 import { chars } from '../state/data'
 
 export type LowerOrUpper = 'Lower' | 'None' | 'Upper'
@@ -82,7 +85,7 @@ export const Game = () => {
     setGameIsOn(true)
   }
 
-  console.log(s.currentKeyboard)
+  console.log(Ruslayout)
 
   useEffect(() => {
     window.addEventListener('keyup', handleKeyDown)
@@ -97,39 +100,41 @@ export const Game = () => {
       <button className={s.superButton} disabled={!gameIsOn} onClick={() => startGame()}>
         Start Game!
       </button>
-      {/*<RandomChar description={descriptionChar(currentChar)} randomChar={currentChar} />*/}
-      <RandomChar description={{ isUpper: 'Lower', language: 'Eng' }} randomChar={'g'} />
+      <RandomChar description={descriptionChar(currentChar)} randomChar={currentChar} />
+      {/*<RandomChar description={{ isUpper: 'Lower', language: 'Eng' }} randomChar={'g'} />*/}
       <UserChar description={userCharDescription} userChar={userChar} />
-      <KeyboardReact
-        baseClass={s.myTheme}
-        buttonTheme={[
-          {
-            buttons: 'g',
-            class: `${s.currentKeyboard}`,
-          },
-        ]}
-        display={{
-          '{bksp}': '⌫ Backspace',
-          '{enter}': 'Enter ⏎',
-          '{shift}': '⇧ Shift',
-        }}
-        layout={{
-          default: [
-            '` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
-            '{tab} q w e r t y u i o p [ ] \\',
-            "{lock} a s d f g h j k l ; ' {enter}",
-            '{shift} z x c v b n m , . / {shift}',
-            '.com @ {space}',
-          ],
-          shift: [
-            '~ ! @ # $ % ^ &amp; * ( ) _ + {bksp}',
-            '{tab} Q W E R T Y U I O P { } |',
-            '{lock} A S D F G H J K L : " {enter}',
-            '{shift} Z X C V B N M &lt; &gt; ? {shift}',
-            '.com @ {space}',
-          ],
-        }}
-      />
+      {/*<KeyboardReact*/}
+      {/*  baseClass={s.myTheme}*/}
+      {/*  buttonTheme={[*/}
+      {/*    {*/}
+      {/*      buttons: 'g',*/}
+      {/*      class: `${s.currentKeyboard}`,*/}
+      {/*    },*/}
+      {/*  ]}*/}
+      {/*  display={{*/}
+      {/*    '{bksp}': '⌫ Backspace',*/}
+      {/*    '{enter}': 'Enter ⏎',*/}
+      {/*    '{shift}': '⇧ Shift',*/}
+      {/*  }}*/}
+      {/*  // layout={{*/}
+      {/*  //   default: [*/}
+      {/*  //     '` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',*/}
+      {/*  //     '{tab} q w e r t y u i o p [ ] \\',*/}
+      {/*  //     "{lock} a s d f g h j k l ; ' {enter}",*/}
+      {/*  //     '{shift} z x c v b n m , . / {shift}',*/}
+      {/*  //     '.com @ {space}',*/}
+      {/*  //   ],*/}
+      {/*  //   shift: [*/}
+      {/*  //     '~ ! @ # $ % ^ &amp; * ( ) _ + {bksp}',*/}
+      {/*  //     '{tab} Q W E R T Y U I O P { } |',*/}
+      {/*  //     '{lock} A S D F G H J K L : " {enter}',*/}
+      {/*  //     '{shift} Z X C V B N M &lt; &gt; ? {shift}',*/}
+      {/*  //     '.com @ {space}',*/}
+      {/*  //   ],*/}
+      {/*  // }}*/}
+      {/*  layout={Ruslayout.layout}*/}
+      {/*/>*/}
+      <VirtualKeyboard currentChar={currentChar} />
     </div>
   )
 }
