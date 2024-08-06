@@ -105,9 +105,18 @@
   &.CurrentButton {
     background-color: var(--color-warning-500);
   }
+
+  &.UserButton {
+    background-color: var(--color-danger-500);
+  }
 }
 
 .ButtonDescription {
   display: inline-block;
   text-align: center;
+
+  &.UserButtonDescription {
+    font-weight: bold;
+    color: aliceblue;
+  }
 }
