@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { Button } from '@/components/button/button'
-
 import backgroundMusic from './assets/audio/backgroundMusic/RavingEnergy.mp3'
-import { Game } from './game/Game'
+import { Button } from './components/button/button'
+import { Router } from './router/Rouret'
 
 function App() {
   const audioRef = useRef<HTMLAudioElement>(null)
@@ -29,7 +28,8 @@ function App() {
         <Button onClick={handleUserInteraction} style={{ position: 'absolute', zIndex: '4' }}>
           Music <audio loop ref={audioRef} src={backgroundMusic} />
         </Button>
-        <Game />
+        {/*<Game />*/}
+        <Router />
       </div>
     </>
   )
