@@ -1,0 +1,82 @@
+.button {
+  all: unset;
+
+  cursor: pointer;
+
+  display: inline-flex;
+  gap: 0.625rem;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+  margin: 10px;
+  padding: 6px 28px;
+
+  font-family: inherit;
+  color: inherit;
+
+  border-radius: 4px;
+
+  &:focus {
+    outline: 2px solid var(--color-info-500);
+  }
+}
+
+@mixin button-styles($color) {
+  background-color: $color;
+  box-shadow: 0 2px 18px 0 $color;
+}
+
+.primary {
+  @include button-styles(var(--color-accent-500));
+
+  &:disabled {
+    @include button-styles(var(--color-accent-900));
+
+    color: var(--color-light-900);
+  }
+
+  &:hover {
+    @include button-styles(var(--color-accent-300));
+  }
+}
+
+.primary:active {
+  background-color: var(--color-accent-700);
+}
+
+.primary:disabled:hover {
+  cursor: default;
+  color: var(--color-light-900);
+  background-color: var(--color-accent-900);
+  box-shadow: 0 2px 18px 0 var(--color-accent-900);
+}
+
+.secondary {
+  @include button-styles(var(--color-dark-300));
+
+  &:disabled {
+    @include button-styles(var(--color-dark-700));
+
+    color: var(--color-light-900);
+  }
+
+  &:hover {
+    @include button-styles(var(--color-dark-100));
+  }
+}
+
+.secondary:active {
+  background-color: var(--color-dark-500);
+}
+
+.secondary:disabled:hover {
+  cursor: default;
+  color: var(--color-light-900);
+  background-color: var(--color-dark-700);
+  box-shadow: 0 2px 18px 0 var(--color-dark-700);
+}
+
+.fullWidth {
+  width: 100%;
+}

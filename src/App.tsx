@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
+import { Button } from '@/components/button/button'
+
 import backgroundMusic from './assets/audio/backgroundMusic/RavingEnergy.mp3'
 import { Game } from './game/Game'
 
@@ -11,20 +13,22 @@ function App() {
     if (audioRef.current && isPlaying) {
       audioRef.current.volume = 0.1
       audioRef.current.play()
+    } else {
+      audioRef.current.pause()
     }
   }, [isPlaying])
 
   const handleUserInteraction = () => {
-    setIsPlaying(true)
+    console.log('music on')
+    setIsPlaying(!isPlaying)
   }
 
   return (
     <>
-      <button onClick={handleUserInteraction}>
-        Music
-        <audio loop ref={audioRef} src={backgroundMusic} />
-      </button>
-      <div style={{ backgroundColor: '#0f0e17', height: '100vh' }}>
+      <div style={{ backgroundColor: '#0f0e17', height: '100vh', position: 'relative' }}>
+        <Button onClick={handleUserInteraction} style={{ position: 'absolute', zIndex: '4' }}>
+          Music <audio loop ref={audioRef} src={backgroundMusic} />
+        </Button>
         <Game />
       </div>
     </>

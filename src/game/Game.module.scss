@@ -10,7 +10,24 @@
   border: 1px solid white;
 }
 
+.randomChar {
+  height: 147px;
+}
+
+.userChar {
+  height: 92px;
+}
+
+.virtualKeyboard {
+  height: 275px;
+}
+
+.miko {
+  height: 200px;
+}
+
 .success {
+  text-shadow: 0 0 10px #38491b;
   box-shadow: inset 5px 10px 50px 15px #38491b;
 }
 
@@ -23,13 +40,9 @@
   position: absolute;
   top: 30%;
   right: 10%;
-
-  background-color: var(--color-accent-900);
-  border-radius: 3px;
 }
 
 .currentKeyboard {
-  //background-color: var(--color-danger-900) !important;
   background: var(--color-danger-900);
 }
 

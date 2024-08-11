@@ -1,4 +1,7 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+
+import { Button } from '@/components/button/button'
+import { Emotion, Miko } from '@/components/miko/Miko'
 
 import 'react-simple-keyboard/build/css/index.css'
 
@@ -7,7 +10,6 @@ import s from './Game.module.scss'
 import { RandomChar } from '../components/randomChar/RandomChar'
 import { UserChar } from '../components/userChar/UserChar'
 import { VirtualKeyboard } from '../components/virtualKeyboard/VirtualKeyboard'
-import { chars } from '../state/data'
 
 export type LowerOrUpper = 'Lower' | 'None' | 'Upper'
 
@@ -17,14 +19,16 @@ export type Description = {
 }
 
 export const Game = () => {
-  const [userChar, setUserChar] = useState('')
+  const [userChar, setUserChar] = useState({ char: '', id: '' })
   const [userCharDescription, setUserCharDescription] = useState<Description>({
     isUpper: 'None',
     language: '',
   })
   const [currentChar, setCurrentChar] = useState('')
   const [gameIsOn, setGameIsOn] = useState(true)
-  const [success, setSuccess] = useState(false)
+  const isKeyboardLockedRef = useRef(false)
+  const [audioPlayed, setAudioPlayed] = useState(false)
+  const [emotion, setEmotion] = useState<Emotion>('expectation')
 
   const randomChar = (arr: any) => {
     const randomIndex = Math.floor(Math.random() * arr.length)
@@ -48,51 +52,77 @@ export const Game = () => {
     }
   }
 
-  // let success = true
-  // const fail = false
-
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      setUserChar(event.key)
-      setUserCharDescription(descriptionChar(event.key))
-      if (event.key === currentChar) {
-        setTimeout(() => {
-          setCurrentChar(randomChar(chars))
-          setSuccess(false)
-        }, 2000)
-
-        setSuccess(true)
-      } else if (/^\S$/.test(event.key)) {
-        console.log('Error', event.code)
-      } else {
-        console.log('Error', event.key)
+      if (!isKeyboardLockedRef.current && !audioPlayed) {
+        if (event.key === currentChar) {
+          isKeyboardLockedRef.current = true
+          setAudioPlayed(true)
+          setUserChar({ char: event.key, id: event.code })
+          setUserCharDescription(descriptionChar(event.key))
+          setEmotion('happy')
+          setTimeout(() => {
+            isKeyboardLockedRef.current = false
+            setEmotion('expectation')
+            setAudioPlayed(false)
+            // setCurrentChar(randomChar(chars))
+            setCurrentChar('g')
+          }, 2700)
+        } else if (/^\S$/.test(event.key)) {
+          isKeyboardLockedRef.current = true
+          setAudioPlayed(true)
+          setUserChar({ char: event.key, id: event.code })
+          setUserCharDescription(descriptionChar(event.key))
+          setEmotion('inspiration')
+          setTimeout(() => {
+            isKeyboardLockedRef.current = false
+            setEmotion('expectation')
+            setAudioPlayed(false)
+          }, 2700)
+        } else {
+          // console.log('Error', event.key)
+        }
       }
     },
-    [currentChar]
+    [currentChar, audioPlayed]
   )
 
   const startGame = () => {
-    setCurrentChar(randomChar(chars))
+    // setCurrentChar(randomChar(chars))
+    setCurrentChar('g')
     setGameIsOn(true)
   }
 
   useEffect(() => {
-    window.addEventListener('keyup', handleKeyDown)
+    document.addEventListener('keyup', handleKeyDown)
 
     return () => {
-      window.removeEventListener('keyup', handleKeyDown)
+      document.removeEventListener('keyup', handleKeyDown)
     }
   }, [handleKeyDown])
 
   return (
-    <div className={`${s.gameContainer} ${success ? s.success : ''}`}>
-      <button className={s.superButton} disabled={!gameIsOn} onClick={() => startGame()}>
+    <div
+      className={`${s.gameContainer} ${emotion === 'happy' ? s.success : ''} ${
+        emotion === 'inspiration' ? s.fail : ''
+      }`}
+    >
+      <Button className={s.superButton} disabled={!gameIsOn} onClick={() => startGame()}>
         Start Game!
-      </button>
-      <RandomChar description={descriptionChar(currentChar)} randomChar={currentChar} />
-      {/*<RandomChar description={{ isUpper: 'Lower', language: 'Eng' }} randomChar={'g'} />*/}
-      <UserChar description={userCharDescription} userChar={userChar} />
-      <VirtualKeyboard currentChar={currentChar} userChar={userChar} />
+      </Button>
+      {/*<RandomChar description={descriptionChar(currentChar)} randomChar={currentChar} />*/}
+      <div className={s.randomChar}>
+        <RandomChar description={descriptionChar(currentChar)} randomChar={currentChar} />
+      </div>
+      <div className={s.userChar}>
+        <UserChar description={userCharDescription} userChar={userChar.char} />
+      </div>
+      <div className={s.virtualKeyboard}>
+        <VirtualKeyboard currentChar={currentChar} userChar={userChar} />
+      </div>
+      <div className={s.miko}>
+        <Miko emotion={emotion} />
+      </div>
     </div>
   )
 }
