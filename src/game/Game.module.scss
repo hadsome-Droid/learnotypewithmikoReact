@@ -1,3 +1,22 @@
+@mixin styles-by-color($color) {
+  color: $color;
+  background-color: transparent;
+  //box-shadow: none;
+}
+// миксин  для псевдоклассов :hover и :active
+@mixin hover-and-active-styles($hover-color, $active-color) {
+  &:hover {
+    @include styles-by-color($hover-color);
+    box-shadow: 0 0 3px $hover-color;
+  }
+
+  &:active {
+    @include styles-by-color($active-color);
+
+    filter: drop-shadow(0 0 2px $active-color);
+  }
+}
+
 .gameContainer {
   position: relative;
 
@@ -37,9 +56,37 @@
 .superButton {
   position: absolute;
   top: 90%;
-  right: 10%;
+  right: 0;
 }
+.voice {
+  all: unset;
+  position: absolute;
+  top: 90%;
+  left: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border-radius: 50%;
+  border: 1px solid var(--color-success-900);
+  color: var(--color-success-900);
 
+  @include hover-and-active-styles(var(--color-success-700), var(--color-success-500));
+  &:focus {
+    outline: 2px solid var(--color-success-700);
+  }
+
+  &.voiceOff {
+    border: 1px solid var(--color-danger-900);
+    color: var(--color-danger-900);
+    @include hover-and-active-styles(var(--color-danger-700), var(--color-danger-500));
+    &:focus {
+      outline: 2px solid var(--color-danger-700);
+    }
+  }
+}
 .currentKeyboard {
   background: var(--color-danger-900);
 }

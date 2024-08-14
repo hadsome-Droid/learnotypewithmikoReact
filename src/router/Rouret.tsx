@@ -12,8 +12,16 @@ const publicRouters: RouteObject[] = [
 ]
 const privateRoutes: RouteObject[] = [
   {
-    element: <Game />,
-    path: '/game',
+    element: <Game level={{ stage1: true, stage2: false, stage3: false }} />,
+    path: '/game/level/stage1',
+  },
+  {
+    element: <Game level={{ stage1: false, stage2: true, stage3: false }} />,
+    path: '/game/level/stage2',
+  },
+  {
+    element: <Game level={{ stage1: false, stage2: false, stage3: true }} />,
+    path: '/game/level/stage3',
   },
 ]
 

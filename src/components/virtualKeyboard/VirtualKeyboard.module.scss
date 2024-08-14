@@ -104,6 +104,7 @@
 
   &.CurrentButton {
     background-color: var(--color-warning-500);
+    box-shadow: 0 0 5px 5px var(--color-warning-100);
   }
 
   &.UserButton {

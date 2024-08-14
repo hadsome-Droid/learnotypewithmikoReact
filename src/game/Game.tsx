@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 
+import { AlignLeftArrow } from '@/assets/icons/components/alignLeftArrow'
+import { HighSound } from '@/assets/icons/components/highSound'
+import { MuteSound } from '@/assets/icons/components/muteSound'
 import { chars } from '@/state/data'
 
 import 'react-simple-keyboard/build/css/index.css'
@@ -20,7 +23,16 @@ export type Description = {
   language: string
 }
 
-export const Game = () => {
+type Props = {
+  level: Level
+}
+
+type Level = {
+  stage1: boolean
+  stage2: boolean
+  stage3: boolean
+}
+export const Game = ({ level }: Props) => {
   const [userChar, setUserChar] = useState({ char: '', id: '' })
   const [userCharDescription, setUserCharDescription] = useState<Description>({
     isUpper: 'None',
@@ -31,6 +43,7 @@ export const Game = () => {
   const isKeyboardLockedRef = useRef(false)
   const [audioPlayed, setAudioPlayed] = useState(false)
   const [emotion, setEmotion] = useState<Emotion>('expectation')
+  const [voiceOn, setVoiceOn] = useState(true)
 
   const randomChar = (arr: any) => {
     const randomIndex = Math.floor(Math.random() * arr.length)
@@ -39,14 +52,24 @@ export const Game = () => {
   }
 
   const startGame = () => {
-    setCurrentChar(randomChar(chars))
+    if (level.stage1) {
+      console.log('stage 1')
+      setCurrentChar(randomChar(chars).toUpperCase())
+    }
+    if (level.stage2) {
+      console.log('stage 2')
+      setCurrentChar(randomChar(chars).toLowerCase())
+    }
+    if (level.stage3) {
+      console.log('stage 3')
+      setCurrentChar(randomChar(chars))
+    }
     // setCurrentChar('g')
     setGameIsOn(true)
   }
 
   if (currentChar === '') {
     startGame()
-    console.log('poebda')
   }
 
   const descriptionChar = (char: string): Description => {
@@ -65,27 +88,52 @@ export const Game = () => {
     }
   }
 
+  const positiveCase = (event: KeyboardEvent) => {
+    if (level.stage1) {
+      return event.key ? event.key.toUpperCase() : ''
+    }
+    if (level.stage2) {
+      return event.key ? event.key.toLowerCase() : ''
+    }
+
+    return event.key ? event.key : ''
+  }
+
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
+      const eventKey = positiveCase(event)
+
       if (!isKeyboardLockedRef.current && !audioPlayed) {
-        if (event.key === currentChar) {
+        if (positiveCase(event) === currentChar) {
           isKeyboardLockedRef.current = true
           setAudioPlayed(true)
-          setUserChar({ char: event.key, id: event.code })
-          setUserCharDescription(descriptionChar(event.key))
+          setUserChar({ char: eventKey, id: event.code })
+          setUserCharDescription(descriptionChar(eventKey))
           setEmotion('happy')
           setTimeout(() => {
             isKeyboardLockedRef.current = false
             setEmotion('expectation')
             setAudioPlayed(false)
-            setCurrentChar(randomChar(chars))
+            if (level.stage1) {
+              console.log('stage 1')
+              setCurrentChar(randomChar(chars).toUpperCase())
+            }
+            if (level.stage2) {
+              console.log('stage 2')
+              setCurrentChar(randomChar(chars).toLowerCase())
+            }
+            if (level.stage3) {
+              console.log('stage 3')
+              setCurrentChar(randomChar(chars))
+            }
+            // setCurrentChar(randomChar(chars))
             // setCurrentChar('g')
           }, 2700)
-        } else if (/^\S$/.test(event.key)) {
+        } else if (/^\S$/.test(eventKey)) {
           isKeyboardLockedRef.current = true
           setAudioPlayed(true)
-          setUserChar({ char: event.key, id: event.code })
-          setUserCharDescription(descriptionChar(event.key))
+          setUserChar({ char: eventKey, id: event.code })
+          setUserCharDescription(descriptionChar(eventKey))
           setEmotion('inspiration')
           setTimeout(() => {
             isKeyboardLockedRef.current = false
@@ -97,7 +145,7 @@ export const Game = () => {
         }
       }
     },
-    [currentChar, audioPlayed]
+    [currentChar, audioPlayed, level, positiveCase]
   )
 
   useEffect(() => {
@@ -114,6 +162,10 @@ export const Game = () => {
     setComeBack(true)
   }
 
+  const handleVoiceOn = () => {
+    setVoiceOn(!voiceOn)
+  }
+
   if (comeBack) {
     return <Navigate to={'/'} />
   }
@@ -125,7 +177,7 @@ export const Game = () => {
       }`}
     >
       <Button className={s.superButton} disabled={!gameIsOn} onClick={() => handleComeBack()}>
-        Return Start Game
+        <AlignLeftArrow /> Back Start Game
       </Button>
       <div className={s.randomChar}>
         <RandomChar description={descriptionChar(currentChar)} randomChar={currentChar} />
@@ -137,8 +189,11 @@ export const Game = () => {
         <VirtualKeyboard currentChar={currentChar} userChar={userChar} />
       </div>
       <div className={s.miko}>
-        <Miko emotion={emotion} />
+        <Miko emotion={emotion} isVoiceOn={voiceOn} />
       </div>
+      <Button className={`${s.voice} ${!voiceOn ? s.voiceOff : ''}`} onClick={handleVoiceOn}>
+        {voiceOn ? <HighSound /> : <MuteSound />}
+      </Button>
     </div>
   )
 }

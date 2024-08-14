@@ -7,11 +7,12 @@ import s from './Miko.module.scss'
 type Props = {
   className?: string
   emotion: Emotion
+  isVoiceOn?: boolean
 }
 
 export type Emotion = 'expectation' | 'happy' | 'inspiration'
 
-export const Miko = ({ className, emotion }: Props) => {
+export const Miko = ({ className, emotion, isVoiceOn }: Props) => {
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   const randomSrc = (arr: any) => {
@@ -41,12 +42,12 @@ export const Miko = ({ className, emotion }: Props) => {
   }, [emotion]) || { audioSrc: '', imgSrc: '' }
 
   useEffect(() => {
-    if (randomEmotion.audioSrc) {
+    if (randomEmotion.audioSrc && isVoiceOn) {
       if (audioRef.current) {
         audioRef.current.play()
       }
     }
-  }, [randomEmotion.audioSrc])
+  }, [randomEmotion.audioSrc, isVoiceOn])
 
   return (
     <div className={`${s.MikoContainer} ${className}`}>

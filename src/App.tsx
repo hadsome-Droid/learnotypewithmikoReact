@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 
+import { MusicPlay } from '@/assets/icons/components/musicPlay'
+import { MusicStop } from '@/assets/icons/components/musicStop'
+
 import backgroundMusic from './assets/audio/backgroundMusic/RavingEnergy.mp3'
 import { Button } from './components/button/button'
 import { Router } from './router/Rouret'
@@ -10,10 +13,12 @@ function App() {
 
   useEffect(() => {
     if (audioRef.current && isPlaying) {
-      audioRef.current.volume = 0.1
+      audioRef.current.volume = 0.2
       audioRef.current.play()
     } else {
-      audioRef.current.pause()
+      if (audioRef.current) {
+        audioRef.current.pause()
+      }
     }
   }, [isPlaying])
 
@@ -26,7 +31,8 @@ function App() {
     <>
       <div style={{ backgroundColor: '#0f0e17', height: '100vh', position: 'relative' }}>
         <Button onClick={handleUserInteraction} style={{ position: 'absolute', zIndex: '4' }}>
-          Music <audio loop ref={audioRef} src={backgroundMusic} />
+          {isPlaying ? <MusicStop /> : <MusicPlay />}
+          <audio loop ref={audioRef} src={backgroundMusic} />
         </Button>
         {/*<Game />*/}
         <Router />
