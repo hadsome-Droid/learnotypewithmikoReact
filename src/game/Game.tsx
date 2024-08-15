@@ -177,8 +177,11 @@ export const Game = ({ level }: Props) => {
       }`}
     >
       <Button className={s.superButton} disabled={!gameIsOn} onClick={() => handleComeBack()}>
-        <AlignLeftArrow /> Back Start Game
+        <AlignLeftArrow /> Назад к выбору стадии
       </Button>
+      <span className={s.stage}>{`${level.stage1 ? 'Стадия 1' : ''} ${
+        level.stage2 ? 'Стадия 2' : ''
+      } ${level.stage3 ? 'Стадия 3' : ''}`}</span>
       <div className={s.randomChar}>
         <RandomChar description={descriptionChar(currentChar)} randomChar={currentChar} />
       </div>

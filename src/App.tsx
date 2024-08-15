@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 import { MusicPlay } from '@/assets/icons/components/musicPlay'
 import { MusicStop } from '@/assets/icons/components/musicStop'
 
+import s from './App.module.scss'
+
 import backgroundMusic from './assets/audio/backgroundMusic/RavingEnergy.mp3'
 import { Button } from './components/button/button'
 import { Router } from './router/Rouret'
@@ -23,15 +25,17 @@ function App() {
   }, [isPlaying])
 
   const handleUserInteraction = () => {
-    console.log('music on')
     setIsPlaying(!isPlaying)
   }
 
   return (
     <>
-      <div style={{ backgroundColor: '#0f0e17', height: '100vh', position: 'relative' }}>
-        <Button onClick={handleUserInteraction} style={{ position: 'absolute', zIndex: '4' }}>
-          {isPlaying ? <MusicStop /> : <MusicPlay />}
+      <div className={s.app}>
+        <Button
+          className={`${s.player} ${s.playMusic} ${isPlaying ? s.stopMusic : ''}`}
+          onClick={handleUserInteraction}
+        >
+          {isPlaying ? <MusicStop size={40} /> : <MusicPlay size={40} />}
           <audio loop ref={audioRef} src={backgroundMusic} />
         </Button>
         {/*<Game />*/}

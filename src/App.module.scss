@@ -1,0 +1,56 @@
+@mixin styles-by-color($color) {
+  color: $color;
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+}
+// миксин  для псевдоклассов :hover и :active
+@mixin hover-and-active-styles($hover-color, $active-color) {
+  &:hover {
+    @include styles-by-color($hover-color);
+  }
+
+  &:active {
+    @include styles-by-color($active-color);
+
+    filter: drop-shadow(0 0 2px $active-color);
+  }
+}
+
+.app {
+  background-color: #0f0e17;
+  height: 100vh;
+  position: relative;
+}
+
+.player {
+  &.playMusic {
+    all: unset;
+    position: absolute;
+    top: 5%;
+    left: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+    color: var(--color-success-900);
+    z-index: 4;
+
+    @include hover-and-active-styles(var(--color-success-700), var(--color-success-500));
+    &:focus {
+      outline: 0 solid var(--color-success-700);
+    }
+    &.stopMusic {
+      color: var(--color-danger-900);
+      @include hover-and-active-styles(var(--color-danger-700), var(--color-danger-500));
+      &:focus {
+        outline: 0 solid var(--color-danger-700);
+      }
+    }
+  }
+}
