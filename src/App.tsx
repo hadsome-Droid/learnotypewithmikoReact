@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { MusicPlay } from '@/assets/icons/components/musicPlay'
-import { MusicStop } from '@/assets/icons/components/musicStop'
-
 import s from './App.module.scss'
 
 import backgroundMusic from './assets/audio/backgroundMusic/RavingEnergy.mp3'
+import { MusicPlay } from './assets/icons/components/musicPlay'
+import { MusicStop } from './assets/icons/components/musicStop'
 import { Button } from './components/button/button'
 import { Router } from './router/Rouret'
 
