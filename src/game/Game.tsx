@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom'
 import { AlignLeftArrow } from '@/assets/icons/components/alignLeftArrow'
 import { HighSound } from '@/assets/icons/components/highSound'
 import { MuteSound } from '@/assets/icons/components/muteSound'
+import { MyParticles } from '@/components/particle/Particle'
 import { chars } from '@/state/data'
 
 import 'react-simple-keyboard/build/css/index.css'
@@ -53,18 +54,14 @@ export const Game = ({ level }: Props) => {
 
   const startGame = () => {
     if (level.stage1) {
-      console.log('stage 1')
       setCurrentChar(randomChar(chars).toUpperCase())
     }
     if (level.stage2) {
-      console.log('stage 2')
       setCurrentChar(randomChar(chars).toLowerCase())
     }
     if (level.stage3) {
-      console.log('stage 3')
       setCurrentChar(randomChar(chars))
     }
-    // setCurrentChar('g')
     setGameIsOn(true)
   }
 
@@ -88,23 +85,26 @@ export const Game = ({ level }: Props) => {
     }
   }
 
-  const positiveCase = (event: KeyboardEvent) => {
-    if (level.stage1) {
-      return event.key ? event.key.toUpperCase() : ''
-    }
-    if (level.stage2) {
-      return event.key ? event.key.toLowerCase() : ''
-    }
-
-    return event.key ? event.key : ''
-  }
-
-  const handleKeyDown = useCallback(
+  const settingStage = useCallback(
     (event: KeyboardEvent) => {
-      const eventKey = positiveCase(event)
+      if (level.stage1) {
+        return event.key ? event.key.toUpperCase() : ''
+      }
+      if (level.stage2) {
+        return event.key ? event.key.toLowerCase() : ''
+      }
+
+      return event.key ? event.key : ''
+    },
+    [level]
+  )
+
+  const handleKeyUp = useCallback(
+    (event: KeyboardEvent) => {
+      const eventKey = settingStage(event)
 
       if (!isKeyboardLockedRef.current && !audioPlayed) {
-        if (positiveCase(event) === currentChar) {
+        if (settingStage(event) === currentChar) {
           isKeyboardLockedRef.current = true
           setAudioPlayed(true)
           setUserChar({ char: eventKey, id: event.code })
@@ -115,15 +115,12 @@ export const Game = ({ level }: Props) => {
             setEmotion('expectation')
             setAudioPlayed(false)
             if (level.stage1) {
-              console.log('stage 1')
               setCurrentChar(randomChar(chars).toUpperCase())
             }
             if (level.stage2) {
-              console.log('stage 2')
               setCurrentChar(randomChar(chars).toLowerCase())
             }
             if (level.stage3) {
-              console.log('stage 3')
               setCurrentChar(randomChar(chars))
             }
             // setCurrentChar(randomChar(chars))
@@ -145,16 +142,16 @@ export const Game = ({ level }: Props) => {
         }
       }
     },
-    [currentChar, audioPlayed, level, positiveCase]
+    [currentChar, audioPlayed, level, settingStage]
   )
 
   useEffect(() => {
-    document.addEventListener('keyup', handleKeyDown)
+    document.addEventListener('keyup', handleKeyUp)
 
     return () => {
-      document.removeEventListener('keyup', handleKeyDown)
+      document.removeEventListener('keyup', handleKeyUp)
     }
-  }, [handleKeyDown])
+  }, [handleKeyUp])
 
   const [comeBack, setComeBack] = useState(false)
 
@@ -176,6 +173,7 @@ export const Game = ({ level }: Props) => {
         emotion === 'inspiration' ? s.fail : ''
       }`}
     >
+      <MyParticles isShowFlake={emotion === 'happy'} />
       <Button className={s.superButton} disabled={!gameIsOn} onClick={() => handleComeBack()}>
         <AlignLeftArrow /> Назад к выбору стадии
       </Button>

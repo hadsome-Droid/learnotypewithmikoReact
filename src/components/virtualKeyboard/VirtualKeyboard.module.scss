@@ -2,8 +2,6 @@
   margin-top: 20px;
   padding: 5px;
 
-  font-family: HelveticaNeue-Light, 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial,
-    'Lucida Grande', sans-serif;
   color: var(--color-dark-900);
 
   background-color: var(--color-light-500);
@@ -22,21 +20,12 @@
 }
 
 @keyframes flashing {
-  25% {
-    box-shadow: 0 0 2.5px 2.5px var(--color-warning-100);
-  }
-
   50% {
-    background-color: var(--color-warning-700);
-    box-shadow: 0 0 1.5px 1.5px var(--color-warning-100);
-  }
-
-  75% {
-    box-shadow: 0 0 2.5px 2.5px var(--color-warning-100);
+    box-shadow: 0 0 0 0 var(--color-warning-300);
   }
 
   100% {
-    box-shadow: 0 0 5px 5px var(--color-warning-100);
+    box-shadow: 0 0 7px 7px var(--color-warning-100);
   }
 }
 
@@ -123,10 +112,10 @@
 
   &.CurrentButton {
     background-color: var(--color-warning-500);
-    box-shadow: 0 0 5px 5px var(--color-warning-100);
+    box-shadow: 0 0 7px 7px var(--color-warning-100);
 
     animation-name: flashing;
-    animation-duration: 1s;
+    animation-duration: 0.5s;
     animation-iteration-count: infinite;
   }
 
@@ -141,6 +130,6 @@
 
   &.UserButtonDescription {
     font-weight: bold;
-    color: aliceblue;
+    color: var(--color-light-100);
   }
 }

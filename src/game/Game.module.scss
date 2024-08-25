@@ -23,6 +23,7 @@
 .gameContainer {
   position: relative;
 
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,28 +32,41 @@
 }
 
 .randomChar {
+  z-index: 4;
   height: 147px;
 }
 
 .userChar {
+  z-index: 4;
   height: 92px;
   margin-top: 20px;
 }
 
 .virtualKeyboard {
+  z-index: 4;
   height: 275px;
 }
 
 .miko {
+  z-index: 4;
   height: 200px;
 }
 
+//.miko {
+//  position: absolute;
+//  z-index: 4;
+//  bottom: 15%;
+//  height: 200px;
+//}
+
 .success {
+  z-index: 4;
   text-shadow: 0 0 10px #38491b;
   box-shadow: inset 5px 10px 50px 15px #38491b;
 }
 
 .fail {
+  z-index: 4;
   text-shadow: 0 0 10px #612323;
   box-shadow: inset 5px 10px 50px 15px #612323;
 }
@@ -116,7 +130,7 @@
 
 .myTheme {
   width: 800px;
-  color: green;
+  color: transparent;
 
   .currentKeyboard {
     background-color: var(--color-danger-900);

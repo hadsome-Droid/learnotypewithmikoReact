@@ -5,15 +5,13 @@ import { Button } from '@/components/button/button'
 
 import s from './StartGame.module.scss'
 
-type Props = {}
-
 export const gameIsStarted = (isOn: boolean = false) => {
   return isOn
 }
 
 type Stage = '1' | '2' | '3'
 
-export const StartGame = (props: Props) => {
+export const StartGame = () => {
   const [startStage, setStartStage] = useState<Stage>()
 
   const stageArray: Stage[] = ['1', '2', '3']
