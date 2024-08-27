@@ -112,6 +112,8 @@ export const Game = ({ level }: Props) => {
           setEmotion('happy')
           setTimeout(() => {
             isKeyboardLockedRef.current = false
+            setUserChar({ char: '', id: '' })
+            setUserCharDescription(descriptionChar(''))
             setEmotion('expectation')
             setAudioPlayed(false)
             if (level.stage1) {

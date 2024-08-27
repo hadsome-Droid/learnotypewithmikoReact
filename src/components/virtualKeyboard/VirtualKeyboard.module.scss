@@ -112,8 +112,6 @@
 
   &.CurrentButton {
     background-color: var(--color-warning-500);
-    box-shadow: 0 0 7px 7px var(--color-warning-100);
-
     animation-name: flashing;
     animation-duration: 0.5s;
     animation-iteration-count: infinite;

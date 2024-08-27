@@ -16,6 +16,7 @@ export const Char = ({ char, isUpper }: Props) => {
       <div className={s.isUpper}>
         {isUpper === 'Upper' && <DoubleAngleUp color={'green'} size={54} />}
         {isUpper === 'Lower' && <DoubleAngleDown color={'red'} size={34} />}
+        {/*{isUpper === 'None'}*/}
       </div>
     </div>
   )
