@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react'
 
-import { mediaSources } from '@/state/data'
+import { mediaSources } from '@/app/data'
 
 import s from './Miko.module.scss'
 

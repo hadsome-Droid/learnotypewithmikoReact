@@ -1,25 +1,27 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
-import { Button, layout } from '@/state/data'
+import { Button, layout } from '@/app/data'
+import { RootState } from '@/app/store'
+import { CurrentCharProps } from '@/model/currentChar/currentChar-reducer'
+import { UserCharProps } from '@/model/userChar/userChar-reducer'
 
 import s from './VirtualKeyboard.module.scss'
 
 interface Props {
-  currentChar: string
-  userChar: Char
+  currentChar?: string
 }
-type Char = {
-  char: string
-  id: string
-}
-export const VirtualKeyboard = ({ currentChar, userChar }: Props) => {
-  const [highlightedKey, setHighlightedKey] = useState<string>('')
-  const [charUser, setCharUser] = useState<string>('')
+
+export const VirtualKeyboard = () => {
+  const { char, id } = useSelector<RootState, UserCharProps>(state => state.userChar)
+  const { char: highlightedKey } = useSelector<RootState, CurrentCharProps>(
+    state => state.currentChar
+  )
+  // const [highlightedKey, setHighlightedKey] = useState<string>('')
 
   useEffect(() => {
-    setHighlightedKey(currentChar)
-    setCharUser(userChar.char)
-  }, [currentChar, userChar])
+    // setHighlightedKey(currentChar)
+  }, [])
 
   const getButtonClassName = useCallback(
     (button: Button) => {
@@ -29,8 +31,8 @@ export const VirtualKeyboard = ({ currentChar, userChar }: Props) => {
         classes.push(s.CurrentButton)
       }
 
-      if (charUser !== highlightedKey && button.labels.includes(charUser?.toUpperCase())) {
-        if (userChar.id === button.id) {
+      if (char !== highlightedKey && button.labels.includes(char?.toUpperCase())) {
+        if (id === button.id) {
           classes.push(s.UserButton)
         }
       }
@@ -81,7 +83,7 @@ export const VirtualKeyboard = ({ currentChar, userChar }: Props) => {
 
       return classes.join(' ')
     },
-    [charUser, highlightedKey]
+    [char, id, highlightedKey]
   )
 
   return (

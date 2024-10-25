@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
+import { chars } from '@/app/data'
+import { RootState } from '@/app/store'
 import { AlignLeftArrow } from '@/assets/icons/components/alignLeftArrow'
 import { HighSound } from '@/assets/icons/components/highSound'
 import { MuteSound } from '@/assets/icons/components/muteSound'
 import { MyParticles } from '@/components/particle/Particle'
-import { chars } from '@/state/data'
+import { CurrentCharProps, updateCurrentCharAC } from '@/model/currentChar/currentChar-reducer'
+import { Description, updateUserCharAC } from '@/model/userChar/userChar-reducer'
 
 import 'react-simple-keyboard/build/css/index.css'
 
@@ -17,13 +21,6 @@ import { RandomChar } from '../components/randomChar/RandomChar'
 import { UserChar } from '../components/userChar/UserChar'
 import { VirtualKeyboard } from '../components/virtualKeyboard/VirtualKeyboard'
 
-export type LowerOrUpper = 'Lower' | 'None' | 'Upper'
-
-export type Description = {
-  isUpper: LowerOrUpper
-  language: string
-}
-
 type Props = {
   level: Level
 }
@@ -33,41 +30,16 @@ type Level = {
   stage2: boolean
   stage3: boolean
 }
+
 export const Game = ({ level }: Props) => {
-  const [userChar, setUserChar] = useState({ char: '', id: '' })
-  const [userCharDescription, setUserCharDescription] = useState<Description>({
-    isUpper: 'None',
-    language: '',
-  })
-  const [currentChar, setCurrentChar] = useState('')
+  const currentChar = useSelector<RootState, CurrentCharProps>(state => state.currentChar)
+  const dispatch = useDispatch()
+
   const [gameIsOn, setGameIsOn] = useState(true)
   const isKeyboardLockedRef = useRef(false)
   const [audioPlayed, setAudioPlayed] = useState(false)
   const [emotion, setEmotion] = useState<Emotion>('expectation')
   const [voiceOn, setVoiceOn] = useState(true)
-
-  const randomChar = (arr: any) => {
-    const randomIndex = Math.floor(Math.random() * arr.length)
-
-    return arr[randomIndex]
-  }
-
-  const startGame = () => {
-    if (level.stage1) {
-      setCurrentChar(randomChar(chars).toUpperCase())
-    }
-    if (level.stage2) {
-      setCurrentChar(randomChar(chars).toLowerCase())
-    }
-    if (level.stage3) {
-      setCurrentChar(randomChar(chars))
-    }
-    setGameIsOn(true)
-  }
-
-  if (currentChar === '') {
-    startGame()
-  }
 
   const descriptionChar = (char: string): Description => {
     if (/[А-ЯЁ]/.test(char)) {
@@ -84,6 +56,31 @@ export const Game = ({ level }: Props) => {
       return { isUpper: 'None', language: '' }
     }
   }
+
+  const startGame = () => {
+    const randoChar = chars[Math.floor(Math.random() * chars.length)]
+
+    if (level.stage1) {
+      dispatch(
+        updateCurrentCharAC(randoChar.toUpperCase(), descriptionChar(randoChar.toUpperCase()))
+      )
+    }
+    if (level.stage2) {
+      dispatch(
+        updateCurrentCharAC(randoChar.toLowerCase(), descriptionChar(randoChar.toLowerCase()))
+      )
+    }
+    if (level.stage3) {
+      dispatch(updateCurrentCharAC(randoChar, descriptionChar(randoChar)))
+    }
+    setGameIsOn(true)
+  }
+
+  useEffect(() => {
+    if (currentChar.char === '') {
+      startGame()
+    }
+  }, [currentChar, startGame])
 
   const settingStage = useCallback(
     (event: KeyboardEvent) => {
@@ -104,35 +101,24 @@ export const Game = ({ level }: Props) => {
       const eventKey = settingStage(event)
 
       if (!isKeyboardLockedRef.current && !audioPlayed) {
-        if (settingStage(event) === currentChar) {
+        if (settingStage(event) === currentChar.char) {
           isKeyboardLockedRef.current = true
           setAudioPlayed(true)
-          setUserChar({ char: eventKey, id: event.code })
-          setUserCharDescription(descriptionChar(eventKey))
+          dispatch(updateUserCharAC(eventKey, event.code, descriptionChar(eventKey)))
           setEmotion('happy')
           setTimeout(() => {
             isKeyboardLockedRef.current = false
-            setUserChar({ char: '', id: '' })
-            setUserCharDescription(descriptionChar(''))
+            dispatch(updateUserCharAC('', '', descriptionChar('')))
             setEmotion('expectation')
             setAudioPlayed(false)
-            if (level.stage1) {
-              setCurrentChar(randomChar(chars).toUpperCase())
-            }
-            if (level.stage2) {
-              setCurrentChar(randomChar(chars).toLowerCase())
-            }
-            if (level.stage3) {
-              setCurrentChar(randomChar(chars))
-            }
+            startGame()
             // setCurrentChar(randomChar(chars))
             // setCurrentChar('g')
           }, 2700)
         } else if (/^\S$/.test(eventKey)) {
           isKeyboardLockedRef.current = true
           setAudioPlayed(true)
-          setUserChar({ char: eventKey, id: event.code })
-          setUserCharDescription(descriptionChar(eventKey))
+          dispatch(updateUserCharAC(eventKey, event.code, descriptionChar(eventKey)))
           setEmotion('inspiration')
           setTimeout(() => {
             isKeyboardLockedRef.current = false
@@ -158,6 +144,8 @@ export const Game = ({ level }: Props) => {
   const [comeBack, setComeBack] = useState(false)
 
   const handleComeBack = () => {
+    dispatch(updateUserCharAC('', '', descriptionChar('')))
+    dispatch(updateCurrentCharAC('', descriptionChar('')))
     setComeBack(true)
   }
 
@@ -183,13 +171,13 @@ export const Game = ({ level }: Props) => {
         level.stage2 ? 'Стадия 2' : ''
       } ${level.stage3 ? 'Стадия 3' : ''}`}</span>
       <div className={s.randomChar}>
-        <RandomChar description={descriptionChar(currentChar)} randomChar={currentChar} />
+        <RandomChar />
       </div>
       <div className={s.userChar}>
-        <UserChar description={userCharDescription} userChar={userChar.char} />
+        <UserChar />
       </div>
       <div className={s.virtualKeyboard}>
-        <VirtualKeyboard currentChar={currentChar} userChar={userChar} />
+        <VirtualKeyboard />
       </div>
       <div className={s.miko}>
         <Miko emotion={emotion} isVoiceOn={voiceOn} />

@@ -1,29 +1,31 @@
+import { useSelector } from 'react-redux'
+
+import { RootState } from '@/app/store'
 import { RussiaFlag } from '@/assets/icons/components/russiaFlag'
 import { SortNumeric } from '@/assets/icons/components/sortNumeric'
 import { UnitedKingdomFlag } from '@/assets/icons/components/unitedKingdomFlag'
 import { Char } from '@/components/char/Char'
-import { Description } from '@/game/Game'
+import { CurrentCharProps } from '@/model/currentChar/currentChar-reducer'
+import { Description } from '@/model/userChar/userChar-reducer'
 
 import s from './RandomChar.module.scss'
 
-type Props = {
-  description: Description
-  randomChar: string
-}
-
-export const RandomChar = ({ description, randomChar }: Props) => {
-  const rus = description.language === 'Рус'
-  const eng = description.language === 'Eng'
-  const num = description.language === 'Цифра'
+export const RandomChar = () => {
+  const { char, charDescription } = useSelector<RootState, CurrentCharProps>(
+    state => state.currentChar
+  )
+  const rus = charDescription.language === 'Рус'
+  const eng = charDescription.language === 'Eng'
+  const num = charDescription.language === 'Цифра'
 
   return (
     <div className={s.randomCharContainer}>
       <div className={s.charBox}>
-        <Char char={randomChar} isUpper={description.isUpper} />
+        <Char char={char} isUpper={charDescription.isUpper} />
       </div>
 
       <div className={s.containerDescription}>
-        <span>{description.language}</span>
+        <span>{charDescription.language}</span>
         {rus && <RussiaFlag />}
         {eng && <UnitedKingdomFlag />}
         {num && <SortNumeric size={30} />}
