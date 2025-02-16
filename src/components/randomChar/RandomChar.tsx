@@ -6,7 +6,6 @@ import { SortNumeric } from '@/assets/icons/components/sortNumeric'
 import { UnitedKingdomFlag } from '@/assets/icons/components/unitedKingdomFlag'
 import { Char } from '@/components/char/Char'
 import { CurrentCharProps } from '@/model/currentChar/currentChar-reducer'
-import { Description } from '@/model/userChar/userChar-reducer'
 
 import s from './RandomChar.module.scss'
 

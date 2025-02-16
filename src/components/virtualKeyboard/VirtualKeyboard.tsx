@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 import { Button, layout } from '@/app/data'
@@ -8,9 +8,6 @@ import { UserCharProps } from '@/model/userChar/userChar-reducer'
 
 import s from './VirtualKeyboard.module.scss'
 
-interface Props {
-  currentChar?: string
-}
 
 export const VirtualKeyboard = () => {
   const { char, id } = useSelector<RootState, UserCharProps>(state => state.userChar)

@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 
 import { RootState } from '@/app/store'
 import { Char } from '@/components/char/Char'
-import { Description } from '@/game/Game'
 import { UserCharProps } from '@/model/userChar/userChar-reducer'
 
 export const UserChar = () => {
