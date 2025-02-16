@@ -1,12 +1,12 @@
-import { useCallback, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useCallback, useEffect } from "react";
+import { useSelector } from "react-redux";
 
-import { Button, layout } from '@/app/data'
-import { RootState } from '@/app/store'
-import { CurrentCharProps } from '@/model/currentChar/currentChar-reducer'
-import { UserCharProps } from '@/model/userChar/userChar-reducer'
+import s from "./VirtualKeyboard.module.scss";
 
-import s from './VirtualKeyboard.module.scss'
+import { Button, layout } from "../../app/data";
+import { RootState } from "../../app/store";
+import { CurrentCharProps } from "../../model/currentChar/currentChar-reducer";
+import { UserCharProps } from "../../model/userChar/userChar-reducer";
 
 
 export const VirtualKeyboard = () => {
@@ -34,54 +34,54 @@ export const VirtualKeyboard = () => {
         }
       }
 
-      if (button.labels.includes('⇦Backspace')) {
+      if (button.labels.includes("⇦Backspace")) {
         classes.push(s.ButtonBackSpace)
       }
 
-      if (button.labels.includes('Tab↹')) {
+      if (button.labels.includes("Tab↹")) {
         classes.push(s.ButtonTab)
       }
 
-      if (button.labels.includes('|')) {
+      if (button.labels.includes("|")) {
         classes.push(s.ButtonLine)
       }
 
-      if (button.labels.includes('CapsLock')) {
+      if (button.labels.includes("CapsLock")) {
         classes.push(s.ButtonCapsLock)
       }
 
-      if (button.labels.includes('⇧ Shift')) {
+      if (button.labels.includes("⇧ Shift")) {
         classes.push(s.ButtonShift)
       }
 
-      if (button.labels.includes('Enter ⏎')) {
+      if (button.labels.includes("Enter ⏎")) {
         classes.push(s.ButtonEnter)
       }
 
-      if (button.labels.includes('Ctrl')) {
+      if (button.labels.includes("Ctrl")) {
         classes.push(s.ButtonCtrl)
       }
 
-      if (button.labels.includes('Alt')) {
+      if (button.labels.includes("Alt")) {
         classes.push(s.ButtonAlt)
       }
 
-      if (button.labels.includes('Space')) {
+      if (button.labels.includes("Space")) {
         classes.push(s.ButtonSpace)
       }
 
-      if (button.labels.includes('Win')) {
+      if (button.labels.includes("Win")) {
         classes.push(s.ButtonWin)
       }
-      if (button.labels.includes('☰')) {
+      if (button.labels.includes("☰")) {
         classes.push(s.ButtonWin)
       }
       // Add additional classes based on button labels
 
-      return classes.join(' ')
+      return classes.join(" ")
     },
     [char, id, highlightedKey]
-  )
+  );
 
   return (
     <div className={s.Keyboard}>
@@ -92,7 +92,7 @@ export const VirtualKeyboard = () => {
               {button.labels.map((label, index) => (
                 <span
                   className={`${s.ButtonDescription} ${
-                    label === highlightedKey?.toUpperCase() ? s.UserButtonDescription : ''
+                    label === highlightedKey?.toUpperCase() ? s.UserButtonDescription : ""
                   }`}
                   key={index}
                 >
@@ -104,5 +104,5 @@ export const VirtualKeyboard = () => {
         </div>
       ))}
     </div>
-  )
-}
+  );
+};

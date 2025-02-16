@@ -1,6 +1,5 @@
 import { DoubleAngleDown } from '@/assets/icons/components/doubleAngleDown'
 import { DoubleAngleUp } from '@/assets/icons/components/doubleAngleUp'
-// import { LowerOrUpper } from '@/game/Game'
 
 import s from './Char.module.scss'
 import { LowerOrUpper } from '@/model/userChar/userChar-reducer'

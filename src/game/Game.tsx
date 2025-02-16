@@ -2,24 +2,23 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
-import { chars } from '@/app/data'
-import { RootState } from '@/app/store'
-import { AlignLeftArrow } from '@/assets/icons/components/alignLeftArrow'
-import { HighSound } from '@/assets/icons/components/highSound'
-import { MuteSound } from '@/assets/icons/components/muteSound'
-import { MyParticles } from '@/components/particle/Particle'
-import { CurrentCharProps, updateCurrentCharAC } from '@/model/currentChar/currentChar-reducer'
-import { Description, updateUserCharAC } from '@/model/userChar/userChar-reducer'
-
 import 'react-simple-keyboard/build/css/index.css'
 
 import s from './Game.module.scss'
 
+import { chars } from '../app/data'
+import { RootState } from '../app/store'
+import { AlignLeftArrow } from '../assets/icons/components/alignLeftArrow'
+import { HighSound } from '../assets/icons/components/highSound'
+import { MuteSound } from '../assets/icons/components/muteSound'
 import { Button } from '../components/button/button'
 import { Emotion, Miko } from '../components/miko/Miko'
+import { MyParticles } from '../components/particle/Particle'
 import { RandomChar } from '../components/randomChar/RandomChar'
 import { UserChar } from '../components/userChar/UserChar'
 import { VirtualKeyboard } from '../components/virtualKeyboard/VirtualKeyboard'
+import { CurrentCharProps, updateCurrentCharAC } from '../model/currentChar/currentChar-reducer'
+import { Description, updateUserCharAC } from '../model/userChar/userChar-reducer'
 
 type Props = {
   level: Level

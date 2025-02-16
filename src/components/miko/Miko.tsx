@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef } from 'react'
 
-import { mediaSources } from '@/app/data'
-
 import s from './Miko.module.scss'
+
+import { mediaSources } from '../../app/data'
 
 type Props = {
   className?: string

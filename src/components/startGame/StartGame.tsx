@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
-import { Button } from '@/components/button/button'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import s from './StartGame.module.scss'
+
+import { Button } from '../../components/button/button'
 
 type Stage = '1' | '2' | '3'
 

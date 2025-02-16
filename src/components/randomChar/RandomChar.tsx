@@ -1,13 +1,13 @@
 import { useSelector } from 'react-redux'
 
-import { RootState } from '@/app/store'
-import { RussiaFlag } from '@/assets/icons/components/russiaFlag'
-import { SortNumeric } from '@/assets/icons/components/sortNumeric'
-import { UnitedKingdomFlag } from '@/assets/icons/components/unitedKingdomFlag'
-import { Char } from '@/components/char/Char'
-import { CurrentCharProps } from '@/model/currentChar/currentChar-reducer'
-
 import s from './RandomChar.module.scss'
+
+import { RootState } from '../../app/store'
+import { RussiaFlag } from '../../assets/icons/components/russiaFlag'
+import { SortNumeric } from '../../assets/icons/components/sortNumeric'
+import { UnitedKingdomFlag } from '../../assets/icons/components/unitedKingdomFlag'
+import { Char } from '../../components/char/Char'
+import { CurrentCharProps } from '../../model/currentChar/currentChar-reducer'
 
 export const RandomChar = () => {
   const { char, charDescription } = useSelector<RootState, CurrentCharProps>(

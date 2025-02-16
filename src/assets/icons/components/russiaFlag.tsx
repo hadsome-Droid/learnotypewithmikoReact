@@ -1,4 +1,4 @@
-import { IconProps, IconWrapper } from '@/assets/icons/iconWrapper'
+import { IconProps, IconWrapper } from '../../icons/iconWrapper'
 
 export const RussiaFlag = (allProps: IconProps) => {
   const { svgProps: props, ...restProps } = allProps

@@ -1,8 +1,7 @@
 import { RouteObject, RouterProvider, createBrowserRouter } from 'react-router-dom'
 
-import { Game } from '@/game/Game'
-
 import { StartGame } from '../components/startGame/StartGame'
+import { Game } from '../game/Game'
 
 const publicRouters: RouteObject[] = [
   {

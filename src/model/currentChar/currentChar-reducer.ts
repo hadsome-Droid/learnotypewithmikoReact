@@ -1,4 +1,4 @@
-import { Description } from '@/model/userChar/userChar-reducer'
+import { Description } from '../userChar/userChar-reducer'
 
 export type CurrentCharProps = {
   char: string
